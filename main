@@ -1,18 +1,18 @@
 #!/bin/bash
 
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:20:00
+
 #SBATCH --job-name=template
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=10G
-#SBATCH --time=00:30:00
+#SBATCH --time=00:20:00
 
-# Copyright (c) 2020 brainlife.io at University of Texas at Austin and Indiana University
-# 
-# This is the main file run by the brainlife.io orchestration system
-#
-# Author: Franco Pestilli
+set -x
+set -e
 
-# make output directory
 mkdir -p out_dir
+mkdir -p out_figs
+mkdir -p out_report
 
-# run the actual python code
-singularity exec docker://brainlife/mne:1.0.2 python3 main.py
+singularity exec docker://brainlife/mne:1.2.1 python3 main.py
