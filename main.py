@@ -53,14 +53,18 @@ tmax = _parse_time(config.get('tmax'))
 # == LOAD EPOCHS ==
 epochs = mne.read_epochs(config['epochs'], preload=True)
 
+# == PLOT EVOKED BEFORE BASELINE ==
+fig_before = epochs.average().plot(show=False, titles='Evoked before baseline')
+before_path = os.path.join('out_figs', 'evoked_before.png')
+before_base64 = save_figure_with_base64(fig_before, before_path, dpi_file=150, dpi_base64=80)
+
 # == APPLY BASELINE ==
 epochs.apply_baseline((tmin, tmax))
 
 # == PLOT EVOKED AFTER BASELINE ==
-evoked = epochs.average()
-fig = evoked.plot(show=False, titles=f'Evoked after baseline ({tmin} to {tmax} s)')
-evoked_path = os.path.join('out_figs', 'evoked.png')
-evoked_base64 = save_figure_with_base64(fig, evoked_path, dpi_file=150, dpi_base64=80)
+fig_after = epochs.average().plot(show=False, titles=f'Evoked after baseline ({tmin} to {tmax} s)')
+evoked_path = os.path.join('out_figs', 'evoked_after.png')
+after_base64 = save_figure_with_base64(fig_after, evoked_path, dpi_file=150, dpi_base64=80)
 
 # == REPORT ==
 report = mne.Report(title='Baseline Correction Report')
@@ -75,5 +79,6 @@ product_items = []
 add_info_to_product(product_items, 'Baseline correction applied successfully.', msg_type='success')
 add_info_to_product(product_items, f'Baseline window: {tmin} to {tmax} s')
 add_info_to_product(product_items, f'Number of epochs: {len(epochs)}')
-add_image_to_product(product_items, 'Evoked after baseline', base64_data=evoked_base64)
+add_image_to_product(product_items, 'Evoked before baseline', base64_data=before_base64)
+add_image_to_product(product_items, 'Evoked after baseline', base64_data=after_base64)
 create_product_json(product_items)
