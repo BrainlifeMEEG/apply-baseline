@@ -47,7 +47,7 @@ epochs = mne.read_epochs(fname)
 epochs.apply_baseline((tmin, tmax))
 
 # save epochs
-epochs.save(os.path.join('out_dir', 'epo.fif'))
+epochs.save(os.path.join('out_dir', 'meg-epo.fif'))
 
 # == CREATE PRODUCT.JSON ==
 product_items = []
