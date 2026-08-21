@@ -11,7 +11,9 @@ This is an app that takes epoched MEG/EEG data in MNE Epochs format and applies 
 ### Authors
 - [Kamilya Salibayeva](ksalibay@iu.edu)
 
-#### Copyright (c) 2022 brainlife.io The University of Texas at Austin
+Copyright (c) 2026 MEEG Brainlife team
+
+This project is licensed under the AGPL-3.0 License - see [license.txt](license.txt) for details.
 
 ### Funding Acknowledgement
 brainlife.io is publicly funded and for the sustainability of the project it is helpful to Acknowledge the use of the platform. We kindly ask that you acknowledge the funding below in your code and publications. Copy and past the following lines into your repository when using this code.
