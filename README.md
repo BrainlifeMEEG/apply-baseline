@@ -1,77 +1,67 @@
-[![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.444-blue.svg)](https://doi.org/10.25663/bl.app.444)
+# Apply Baseline Correction
 
-# app-apply-baseline
-This is an app that takes epoched MEG/EEG data in MNE Epochs format and applies baseline correction from tmin to tmax specified by the user.
+[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.744-blue.svg)](https://doi.org/10.25663/brainlife.app.744)
 
-1) Input file is mne/Epochs
-2) Input numbers of tmin and tmax mean the start and endpoint of where you would apply the baseline correction (typically tmin is a negative number in s, e.g. -0.1, and tmax is 0, or the stimulus onset for epoched data).
-3) The output file is mne/Epochs, as well.
+## Description
 
-### Authors
-- [Kamilya Salibayeva](ksalibay@iu.edu)
+This Brainlife.io application applies baseline correction to epoched MEG/EEG data stored as an MNE `Epochs` object. For each channel, it computes the mean signal over a user-specified time window (`tmin` to `tmax`) and subtracts it from every sample of the epoch, using [`mne.Epochs.apply_baseline()`](https://mne.tools/stable/generated/mne.Epochs.html#mne.Epochs.apply_baseline). This is a standard preprocessing step used to remove slow drifts and DC offsets before averaging or further analysis.
 
-Copyright (c) 2026 MEEG Brainlife team
+The app generates:
+- Baseline-corrected epoched data in MNE-Python format
 
-This project is licensed under the AGPL-3.0 License - see [license.txt](license.txt) for details.
+## Inputs
 
-### Funding Acknowledgement
-brainlife.io is publicly funded and for the sustainability of the project it is helpful to Acknowledge the use of the platform. We kindly ask that you acknowledge the funding below in your code and publications. Copy and past the following lines into your repository when using this code.
+- **`epochs`** (`neuro/meeg/mne/epochs`): epoched MEG/EEG data to baseline-correct (required)
+
+## Outputs
+
+- **`out_dir/meg-epo.fif`** (`neuro/meeg/mne/epochs`): epoched data after baseline correction has been applied
+
+## Configuration Parameters
+
+| key | type | default | description |
+|---|---|---|---|
+| `tmin` | number | `-0.1` | Start time (s), relative to epoch time 0, of the baseline window |
+| `tmax` | number | `0` | End time (s), relative to epoch time 0, of the baseline window (must be greater than `tmin`) |
+
+## Usage
+
+### Running on Brainlife.io
+
+1. Upload or select your epoched MEG/EEG data file in MNE format (`-epo.fif`)
+2. Select the apply-baseline app
+3. Set `tmin` and `tmax` to define the baseline window
+4. Submit the task
+5. Review the baseline-corrected epochs in the output viewer
+
+### Local Testing
+
+```bash
+# Update config.json with your epochs file path and tmin/tmax
+# Then run:
+./main
+```
+
+## Authors
+
+- Kamilya Salibayeva (https://github.com/KSalibay)
+
+## Citations
+
+- Hayashi, S., Caron, B.A., Heinsfeld, A.S. et al. brainlife.io: a decentralized and open-source cloud platform to support neuroscience research. Nat Methods 21, 809–813 (2024). https://doi.org/10.1038/s41592-024-02237-2
+- Gramfort, A. et al. MEG and EEG data analysis with MNE-Python. Front. Neurosci. 7, 267 (2013). https://doi.org/10.3389/fnins.2013.00267
+
+## Funding Acknowledgement
+
+brainlife.io is publicly funded. We kindly ask that you acknowledge the funding below in your code and publications.
 
 [![NSF-BCS-1734853](https://img.shields.io/badge/NSF_BCS-1734853-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1734853)
 [![NSF-BCS-1636893](https://img.shields.io/badge/NSF_BCS-1636893-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1636893)
 [![NSF-ACI-1916518](https://img.shields.io/badge/NSF_ACI-1916518-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1916518)
 [![NSF-IIS-1912270](https://img.shields.io/badge/NSF_IIS-1912270-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1912270)
 [![NIH-NIBIB-R01EB029272](https://img.shields.io/badge/NIH_NIBIB-R01EB029272-green.svg)](https://grantome.com/grant/NIH/R01-EB029272-01)
+[![NIH-NIBIB-R01EB030896](https://img.shields.io/badge/NIH_NIBIB-R01EB030896-green.svg)](https://grantome.com/grant/NIH/R01-EB030896-01)
 
-### Citations
-We ask that you the following articles when publishing papers that used data, code or other resources created by the brainlife.io community.
+## License
 
-1. Hayashi, S., Caron, B.A., Heinsfeld, A.S. et al. brainlife.io: a decentralized and open-source cloud platform to support neuroscience research. Nat Methods 21, 809–813 (2024). [https://doi.org/10.1038/s41592-024-02237-2](https://doi.org/10.1038/s41592-024-02237-2)
-
-
-## Running the App 
-
-### On Brainlife.io
-
-You can submit this App online at [https://doi.org/10.25663/bl.app.444](https://doi.org/10.25663/bl.app.444) via the "Execute" tab.
-
-### Running Locally (on your machine)
-
-1. git clone this repo.
-2. Inside the cloned directory, create `config.json` with something like the following content with paths to your input files.
-
-```json
-{
-  "t1": "t1.nii.gz"
-}
-```
-
-3. Launch the App by executing `main`
-
-```bash
-./main
-```
-
-### Sample Datasets
-
-If you don't have your own input file, you can download sample datasets from Brainlife.io, or you can use [Brainlife CLI](https://github.com/brain-life/cli).
-
-```
-npm install -g brainlife
-bl login
-mkdir input
-bl dataset download 5a0f0fad2c214c9ba8624376#5a050966eec2b300611abff2 && mv 5a0f0fad2c214c9ba8624376#5a050966eec2b300611abff2 .
-```
-
-## Output
-
-All output file (a resampled T1w NIFTI-1 file) will be generated inside the current working directory (pwd), inside a specifc directory called:
-
-```
-out_dir
-```
-
-### Dependencies
-
-This App requires MNE/Python to run.
+Copyright (c) 2026 MEEG Brainlife team. Licensed under AGPL-3.0, see [license.txt](license.txt).
