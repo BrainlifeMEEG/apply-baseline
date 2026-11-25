@@ -1,5 +1,47 @@
 # Apply Baseline Correction
 
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+> **Applies baseline correction to epoched MEG/EEG data with MNE-Python Epochs.apply_baseline over a tmin-tmax window and saves the corrected epochs.**
+
+For each channel and epoch, subtracts the mean signal over the baseline window [tmin, tmax] (seconds relative to the epoch time 0) using mne.Epochs.apply_baseline, and saves meg-epo.fif. Use it after epoching, before averaging or time-frequency analyses. tmin must be smaller than tmax and the window must lie within the epoch time range.
+
+| | |
+|---|---|
+| 📥 **Inputs** | `neuro/meeg/mne/epochs` |
+| 📤 **Outputs** | `neuro/meeg/mne/epochs` |
+| 🐳 **Container** | `brainlifemeeg/mne:1.12.1` |
+| ⚙️ **Resources** | 10 GB memory · 0.5 h walltime |
+| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.744](https://doi.org/10.25663/brainlife.app.744) |
+
+#### 📥 Inputs
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `epoch` | `neuro/meeg/mne/epochs` | yes | Epoched MEG/EEG data in MNE format (-epo.fif). |
+
+#### 📤 Outputs
+
+| Output | Datatype | Description |
+|---|---|---|
+| `out_dir` | `neuro/meeg/mne/epochs` | Baseline-corrected epochs (meg-epo.fif). |
+
+<details>
+<summary><b>⚙️ Parameters</b> (2)</summary>
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `tmin` | number | `-0.1` | Start time for baseline correction application (s) |
+| `tmax` | number | `0` | End time for baseline correction application (s) |
+
+</details>
+
+📚 **References used by this App:**
+- Hayashi S., Caron B. A., Heinsfeld A. S. et al. brainlife.io: a decentralized and open-source cloud platform to support neuroscience research. Nature Methods 21, 809-813 (2024). [doi:10.1038/s41592-024-02237-2](https://doi.org/10.1038/s41592-024-02237-2)
+- Gramfort A. et al. MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience 7:267 (2013). [doi:10.3389/fnins.2013.00267](https://doi.org/10.3389/fnins.2013.00267)
+
+<!-- brainlife-app:end -->
+
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.744-blue.svg)](https://doi.org/10.25663/brainlife.app.744)
 
 ## Description
